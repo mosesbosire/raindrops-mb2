@@ -1,3 +1,4 @@
+---
 resources:
 - name: raindrops-mb2-git
   type: git

@@ -1,9 +1,8 @@
----
 resources:
 - name: raindrops-mb2-git
   type: git
   source:
-    uri: git@bitbucket.org:armakuni/raindrops-mb.git
+    uri: git@bitbucket.org:armakuni/raindrops-mb2.git
     private_key: ((git_private_key))
     branch: master
 
@@ -20,12 +19,12 @@ jobs:
  - name: deploy-raindrops
   serial: true
   plan:
-  - get: raindrops-mb-git
+  - get: raindrops-mb2-git
     trigger: true
-    passed:
-      - raindrops-mb-test
+    //passed:
+      //- raindrops-mb-test
   - put: pws-cf
     params:
-      manifest: raindrops-mb-git/manifest.yml
-      path: raindrops-mb-git
-      current_app_name: raindrops-mb
+      manifest: raindrops-mb2-git/manifest.yml
+      path: raindrops-mb2-git
+      current_app_name: raindrops-mb2

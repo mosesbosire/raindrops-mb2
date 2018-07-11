@@ -1,0 +1,8 @@
+---
+applications:
+  - name: raindrops-mb2
+    memory: 64m
+    disk_quota: 200m
+    instances: 1
+    env:
+      GOPACKAGENAME: bitbucket.org/armakuni/raindrops-mb2

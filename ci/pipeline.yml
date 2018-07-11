@@ -17,13 +17,11 @@ resources:
     space: moses-training
 
 jobs:
- - name: deploy-raindrops
+- name: deploy-raindrops
   serial: true
   plan:
   - get: raindrops-mb2-git
     trigger: true
-    //passed:
-      //- raindrops-mb-test
   - put: pws-cf
     params:
       manifest: raindrops-mb2-git/manifest.yml

@@ -7,6 +7,11 @@ resources:
     private_key: ((git_private_key))
     branch: master
 
+- name: http-smoke-tests-git
+    type: git
+    source:
+      uri: https://github.com/FidelityInternational/http-smoke-tests.git
+      
 - name: pws-cf
   type: cf
   source:

@@ -67,5 +67,5 @@ jobs:
             go test -v ./...
     params:
       RESPONSE_CODE: 200
-      RESPONSE_BODY_REGEX: Pling
+      RESPONSE_BODY_REGEX: Test
       URL: https://raindrops-mb2.cfapps.io/?number=3

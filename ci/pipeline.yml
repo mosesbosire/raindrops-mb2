@@ -22,6 +22,34 @@ resources:
     space: moses-training
 
 jobs:
+- name: raindrops-mb-test
+  serial: true
+  plan:
+    - get: raindrops-mb-git
+      trigger: true
+    - task: run-tests
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: armakuni/vsm-tests
+        inputs:
+          - name: raindrops-mb-git
+            path: src/bitbucket.org/armakuni/raindrops-mb
+        run:
+          path: sh
+          args:
+          - -euc
+          - |
+            export GOPATH=$PWD
+            cd "${GOPATH}/src/bitbucket.org/armakuni/raindrops-mb"
+            go get github.com/onsi/ginkgo/ginkgo
+            go get github.com/golang/dep/cmd/dep
+            export PATH=$GOPATH/bin:$PATH
+            dep ensure
+            ginkgo -r -cover -race
+            
 - name: deploy-raindrops
   serial: true
   plan:

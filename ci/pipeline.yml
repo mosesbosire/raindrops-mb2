@@ -22,10 +22,10 @@ resources:
     space: moses-training
 
 jobs:
-- name: raindrops-mb-test
+- name: raindrops-mb2-test
   serial: true
   plan:
-    - get: raindrops-mb-git
+    - get: raindrops-mb2-git
       trigger: true
     - task: run-tests
       config:
@@ -35,25 +35,27 @@ jobs:
           source:
             repository: armakuni/vsm-tests
         inputs:
-          - name: raindrops-mb-git
-            path: src/bitbucket.org/armakuni/raindrops-mb
+          - name: raindrops-mb2-git
+            path: src/bitbucket.org/armakuni/raindrops-mb2
         run:
           path: sh
           args:
           - -euc
           - |
             export GOPATH=$PWD
-            cd "${GOPATH}/src/bitbucket.org/armakuni/raindrops-mb"
+            cd "${GOPATH}/src/bitbucket.org/armakuni/raindrops-mb2"
             go get github.com/onsi/ginkgo/ginkgo
             go get github.com/golang/dep/cmd/dep
             export PATH=$GOPATH/bin:$PATH
             dep ensure
             ginkgo -r -cover -race
-            
+
 - name: deploy-raindrops
   serial: true
   plan:
   - get: raindrops-mb2-git
+    passed:
+    - raindrops-mb2-test
     trigger: true
   - put: pws-cf
     params:
@@ -85,7 +87,7 @@ jobs:
         - name: http-smoke-tests-git
           path: src/http-smoke-tests-git
       run:
-        path: sh
+        path: /bin/sh
         args:
         - -euc
         - |
@@ -95,5 +97,5 @@ jobs:
             go test -v ./...
     params:
       RESPONSE_CODE: 200
-      RESPONSE_BODY_REGEX: Test
+      RESPONSE_BODY_REGEX: Pling
       URL: https://raindrops-mb2.cfapps.io/?number=3
